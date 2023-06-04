@@ -11,11 +11,13 @@ const WINDOW_SIZE: (f32, f32) = (
 const FPS: u32 = 1;
 
 fn main() -> GameResult {
-    let state = State::new();
+    let mut state = State::new();
+
+    state.grid[10][10] = true;
 
     let (context, event_loop) = ContextBuilder::new("GOL", "yetyetanotherusername")
         .window_mode(WindowMode::default().dimensions(WINDOW_SIZE.0, WINDOW_SIZE.1))
-        .build()?;
+        .build().expect("to build the game");
 
     event::run(context, event_loop, state);
 }
