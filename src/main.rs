@@ -13,11 +13,12 @@ const FPS: u32 = 1;
 fn main() -> GameResult {
     let mut state = State::new();
 
-    state.grid[10][10] = true;
+    state.grid[1][2] = true;
+    state.grid[3][4] = true;
+    state.grid[5][6] = true;
 
-    let (context, event_loop) = ContextBuilder::new("GOL", "yetyetanotherusername")
-        .window_mode(WindowMode::default().dimensions(WINDOW_SIZE.0, WINDOW_SIZE.1))
-        .build().expect("to build the game");
-
+    let cb = ContextBuilder::new("GOL", "yetyetanotherusername")
+        .window_mode(WindowMode::default().dimensions(WINDOW_SIZE.0, WINDOW_SIZE.1));
+    let (context, event_loop) = cb.build().unwrap();
     event::run(context, event_loop, state);
 }
