@@ -8,14 +8,16 @@ const WINDOW_SIZE: (f32, f32) = (
     CELL_SIZE.0 * GRID_SIZE.0 as f32,
     CELL_SIZE.1 * GRID_SIZE.1 as f32,
 );
-const FPS: u32 = 1;
+const FPS: u32 = 10;
 
 fn main() -> GameResult {
     let mut state = State::new();
 
-    state.grid[1][2] = true;
-    state.grid[3][4] = true;
-    state.grid[5][6] = true;
+    state.grid[5][5] = true;
+    state.grid[6][5] = true;
+    state.grid[6][4] = true;
+    state.grid[7][4] = true;
+    state.grid[5][3] = true;
 
     let cb = ContextBuilder::new("GOL", "yetyetanotherusername")
         .window_mode(WindowMode::default().dimensions(WINDOW_SIZE.0, WINDOW_SIZE.1));
