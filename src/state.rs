@@ -17,7 +17,7 @@ impl State {
         State {
             grid: vec![vec![false; GRID_SIZE.1]; GRID_SIZE.0],
             fps: FPS,
-            running: true,
+            running: false,
         }
     }
 
@@ -90,6 +90,9 @@ impl State {
 impl EventHandler<GameError> for State {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(self.fps) {
+            if !self.running {
+                return Ok(());
+            }
             self.update_grid();
         }
         Ok(())
@@ -99,6 +102,32 @@ impl EventHandler<GameError> for State {
         let mut canvas = graphics::Canvas::from_frame(ctx, Color::WHITE);
         self.draw_state(ctx, &mut canvas);
         canvas.finish(ctx)?;
+        Ok(())
+    }
+
+    fn mouse_button_down_event(
+        &mut self,
+        _ctx: &mut Context,
+        _button: ggez::event::MouseButton,
+        x: f32,
+        y: f32,
+    ) -> Result<(), GameError> {
+        let i = (x / CELL_SIZE.0) as usize;
+        let j = (y / CELL_SIZE.0) as usize;
+
+        self.grid[i][j] ^= true;
+        Ok(())
+    }
+
+    fn key_down_event(
+        &mut self,
+        _ctx: &mut Context,
+        input: ggez::input::keyboard::KeyInput,
+        repeated: bool,
+    ) -> Result<(), GameError> {
+        if input.keycode.unwrap() == ggez::input::keyboard::KeyCode::Space && !repeated {
+            self.running ^= true;
+        }
         Ok(())
     }
 }
