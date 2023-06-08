@@ -21,6 +21,14 @@ impl State {
         }
     }
 
+    fn reset(&mut self) {
+        for i in 0..GRID_SIZE.0 {
+            for j in 0..GRID_SIZE.1 {
+                self.grid[i][j] = false;
+            }
+        }
+    }
+
     fn draw_state(&mut self, ctx: &mut Context, canvas: &mut Canvas) {
         for i in 0..GRID_SIZE.0 {
             for j in 0..GRID_SIZE.1 {
@@ -125,8 +133,15 @@ impl EventHandler<GameError> for State {
         input: ggez::input::keyboard::KeyInput,
         repeated: bool,
     ) -> Result<(), GameError> {
+        // toggle simulation on/off
         if input.keycode.unwrap() == ggez::input::keyboard::KeyCode::Space && !repeated {
             self.running ^= true;
+        }
+
+        // reset
+        if input.keycode.unwrap() == ggez::input::keyboard::KeyCode::C && !repeated && !self.running
+        {
+            self.reset();
         }
         Ok(())
     }
